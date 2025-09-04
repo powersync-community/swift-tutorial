@@ -43,7 +43,7 @@ Downloads are implemented by:
 - Implementing a [PowerSyncBackendConnectorProtocol](https://powersync-ja.github.io/powersync-swift/documentation/powersync/powersyncdatabaseprotocol) which uses Supabase Anonymous signing for authentication.
 - Connecting to a PowerSync service
 
-Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/step_2...step_3)
+Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/step_2..step_3)
 
 ```bash
 git diff step_2 step_3
