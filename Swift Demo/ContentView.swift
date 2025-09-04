@@ -115,6 +115,17 @@ struct ContentView: View {
                 } label: {
                     Text("Sign Out")
                 }
+                Button {
+                    Task {
+                        do {
+                            try await supabase.signOut()
+                        } catch {
+                            print("Could not sign out: \(error)")
+                        }
+                    }
+                } label: {
+                    Text("Sign Out")
+                }
                 Image(systemName: statusImageName)
             }
         }
@@ -131,7 +142,7 @@ struct ContentView: View {
                         try CounterRecord(
                             id: cursor.getString(name: "id"),
                             count: cursor.getInt(name: "count"),
-                            ownerId: cursor.getStringOptional(name: "owner_id"),
+                            ownerId: cursor.getStringOptional(name: "owner_id") ?? "-",
                             createdAt: ISO8601DateFormatter().date(
                                 from: cursor.getString(name: "created_at")
                             ) ?? Date()
