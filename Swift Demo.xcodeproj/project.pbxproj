@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BE394F332E68F75100A5C47B /* PowerSyncDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BE394F322E68F75100A5C47B /* PowerSyncDynamic */; };
+		BE394F342E68F75600A5C47B /* PowerSyncDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BE394F322E68F75100A5C47B /* PowerSyncDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BE36D7802E68D9EC00B7D3A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -22,6 +27,20 @@
 			remoteInfo = "Swift Demo";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BE36D7AE2E68F66E00B7D3A9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BE394F342E68F75600A5C47B /* PowerSyncDynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		BE36D7712E68D9EB00B7D3A9 /* Swift Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Swift Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE394F332E68F75100A5C47B /* PowerSyncDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +122,7 @@
 				BE36D76D2E68D9EB00B7D3A9 /* Sources */,
 				BE36D76E2E68D9EB00B7D3A9 /* Frameworks */,
 				BE36D76F2E68D9EB00B7D3A9 /* Resources */,
+				BE36D7AE2E68F66E00B7D3A9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -112,6 +133,7 @@
 			);
 			name = "Swift Demo";
 			packageProductDependencies = (
+				BE394F322E68F75100A5C47B /* PowerSyncDynamic */,
 			);
 			productName = "Swift Demo";
 			productReference = BE36D7712E68D9EB00B7D3A9 /* Swift Demo.app */;
@@ -195,6 +217,9 @@
 			);
 			mainGroup = BE36D7682E68D9EB00B7D3A9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BE394F312E68F75100A5C47B /* XCRemoteSwiftPackageReference "powersync-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BE36D7722E68D9EB00B7D3A9 /* Products */;
 			projectDirPath = "";
@@ -593,6 +618,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BE394F312E68F75100A5C47B /* XCRemoteSwiftPackageReference "powersync-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/powersync-ja/powersync-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BE394F322E68F75100A5C47B /* PowerSyncDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE394F312E68F75100A5C47B /* XCRemoteSwiftPackageReference "powersync-swift" */;
+			productName = PowerSyncDynamic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BE36D7692E68D9EB00B7D3A9 /* Project object */;
 }

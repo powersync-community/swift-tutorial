@@ -5,12 +5,18 @@
 //  Created by Steven Ontong on 03-09-2025.
 //
 
+import PowerSync
 import SwiftUI
 
 struct ContentView: View {
     @State var counters: [CounterRecord] = []
-    
+
     let userId = UUID().uuidString
+
+    let powerSync = PowerSyncDatabase(
+        schema: powerSyncSchema,
+        dbFilename: "my-demo.sqlite"
+    )
 
     var body: some View {
         VStack {
@@ -19,45 +25,84 @@ struct ContentView: View {
                     CounterView(
                         counter: counter,
                         onIncrement: {
-                            if let idx = counters.firstIndex(
-                                where: { $0.id == counter.id }
-                            ) {
-                                counters[idx].count += 1
+                            Task {
+                                do {
+                                    try await powerSync.execute(
+                                        sql: """
+                                            UPDATE counters 
+                                            SET count = count + 1
+                                            WHERE id = ?
+                                        """,
+                                        parameters: [counter.id]
+                                    )
+                                } catch {
+                                    print("Could not increment counter: \(error)")
+                                }
                             }
                         },
                         onDelete: {
-                            counters.removeAll(
-                                where: {
-                                    $0.id == counter.id
-                                })
+                            Task {
+                                do {
+                                    try await powerSync.execute(
+                                        sql: """
+                                            DELETE FROM counters
+                                            WHERE id = ?
+                                        """,
+                                        parameters: [counter.id]
+                                    )
+                                } catch {
+                                    print("Could not delete counter: \(error)")
+                                }
+                            }
                         }
                     )
                 }
             }
             Button {
-                counters.append(
-                    CounterRecord(
-                        id: UUID().uuidString,
-                        count: 0,
-                        ownerId: userId,
-                        createdAt: Date()
-                    )
-                )
+                Task {
+                    do {
+                        try await powerSync.execute(
+                            sql: """
+                                INSERT INTO counters(id, count, owner_id, created_at)
+                                VALUES(uuid(), 0, ?, strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+                            """,
+                            parameters: [userId]
+                        )
+                    } catch {
+                        print("Could not add counter: \(error)")
+                    }
+                }
             } label: { Text("Add Counter") }
         }
         .padding()
+        .task {
+            /// This will automatically update the counters state whenever
+            /// the result has changed.
+            do {
+                for try await results in try powerSync.watch(
+                    options: WatchOptions(
+                        sql: "SELECT * FROM counters",
+                        parameters: []
+                    ) { cursor in
+                        try CounterRecord(
+                            id: cursor.getString(name: "id"),
+                            count: cursor.getInt(name: "count"),
+                            ownerId: cursor.getString(name: "owner_id"),
+                            createdAt: ISO8601DateFormatter().date(
+                                from: cursor.getString(name: "created_at")
+                            ) ?? Date()
+                        )
+                    })
+                {
+                    counters = results
+                }
+            } catch {
+                print("Could not watch counters: \(error)")
+            }
+        }
     }
 }
 
 #Preview {
-    ContentView(
-        counters: [
-            CounterRecord(
-                id: UUID().uuidString,
-                count: 0,
-                ownerId: UUID().uuidString,
-                createdAt: Date()
-            )
-        ]
-    )
+    ContentView()
 }
