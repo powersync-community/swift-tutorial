@@ -53,7 +53,7 @@ git diff step_2 step_3
 
 The PowerSync SDK queues CRUD operations. These operations can be uploaded in the `uploadData` method of the `PowerSyncBackendConnectorProtocol`. The PowerSync SDK will automatically call `uploadData` to perform uploads. This demo uses the Supabase SDK to upload CRUD operations to the Supabase DB.
 
-Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/step_3...step_4)
+Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/step_3..step_4)
 
 ```bash
 git diff step_3 step_4
