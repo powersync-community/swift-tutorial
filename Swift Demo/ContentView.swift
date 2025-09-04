@@ -10,8 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var counters: [CounterRecord] = []
-
-    let userId = UUID().uuidString
+    @State var statusImageName: String?
 
     let powerSync = PowerSyncDatabase(
         schema: powerSyncSchema,
@@ -69,7 +68,11 @@ struct ContentView: View {
                                     INSERT INTO counters(id, count, owner_id, created_at)
                                     VALUES(uuid(), 0, ?, strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
                                 """,
-                                parameters: [userId]
+                                parameters: [
+                                    /// This will use a signed in session id if the app has ever been signed in while online.
+                                    /// We will set the owner_id when uploading if the session has not been started (initially offline)
+                                    supabase.client.auth.currentSession?.user.id.uuidString
+                                ]
                             )
                         } catch {
                             print("Could not add counter: \(error)")
@@ -97,6 +100,20 @@ struct ContentView: View {
                         }
                     }
                 } label: { Text("Disconnect And Clear") }
+                Button {
+                    Task {
+                        do {
+                            try await supabase.signOut()
+                        } catch {
+                            print("Could not sign out: \(error)")
+                        }
+                    }
+                } label: {
+                    Text("Sign Out")
+                }
+                if let systemName = statusImageName {
+                    Image(systemName: systemName)
+                }
             }
         }
         .padding()
@@ -106,13 +123,13 @@ struct ContentView: View {
                 /// the result has changed.
                 for try await results in try powerSync.watch(
                     options: WatchOptions(
-                        sql: "SELECT * FROM counters",
+                        sql: "SELECT * FROM counters ORDER BY created_at",
                         parameters: []
                     ) { cursor in
                         try CounterRecord(
                             id: cursor.getString(name: "id"),
                             count: cursor.getInt(name: "count"),
-                            ownerId: cursor.getString(name: "owner_id"),
+                            ownerId: cursor.getStringOptional(name: "owner_id") ?? "-",
                             createdAt: ISO8601DateFormatter().date(
                                 from: cursor.getString(name: "created_at")
                             ) ?? Date()
@@ -123,6 +140,18 @@ struct ContentView: View {
                 }
             } catch {
                 print("Could not watch counters: \(error)")
+            }
+        }
+        .task {
+            /// This updates the status icon from the PowerSync status
+            for await status in powerSync.currentStatus.asFlow() {
+                if status.connected {
+                    statusImageName = "wifi"
+                } else if status.connecting {
+                    statusImageName = "wifi.exclamationmark"
+                } else {
+                    statusImageName = "wifi.slash"
+                }
             }
         }
     }
