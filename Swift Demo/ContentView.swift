@@ -18,6 +18,8 @@ struct ContentView: View {
         dbFilename: "my-demo.sqlite"
     )
 
+    let supabase = SupabaseConnector()
+
     var body: some View {
         VStack {
             List {
@@ -58,27 +60,50 @@ struct ContentView: View {
                     )
                 }
             }
-            Button {
-                Task {
-                    do {
-                        try await powerSync.execute(
-                            sql: """
-                                INSERT INTO counters(id, count, owner_id, created_at)
-                                VALUES(uuid(), 0, ?, strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
-                            """,
-                            parameters: [userId]
-                        )
-                    } catch {
-                        print("Could not add counter: \(error)")
+            HStack {
+                Button {
+                    Task {
+                        do {
+                            try await powerSync.execute(
+                                sql: """
+                                    INSERT INTO counters(id, count, owner_id, created_at)
+                                    VALUES(uuid(), 0, ?, strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))
+                                """,
+                                parameters: [userId]
+                            )
+                        } catch {
+                            print("Could not add counter: \(error)")
+                        }
                     }
-                }
-            } label: { Text("Add Counter") }
+                } label: { Text("Add Counter") }
+                Spacer()
+                Button {
+                    Task {
+                        do {
+                            try await powerSync.connect(
+                                connector: supabase
+                            )
+                        } catch {
+                            print("Could not disconnect and clear")
+                        }
+                    }
+                } label: { Text("Connect") }
+                Button {
+                    Task {
+                        do {
+                            try await powerSync.disconnectAndClear()
+                        } catch {
+                            print("Could not disconnect and clear")
+                        }
+                    }
+                } label: { Text("Disconnect And Clear") }
+            }
         }
         .padding()
         .task {
-            /// This will automatically update the counters state whenever
-            /// the result has changed.
             do {
+                /// This will automatically update the counters state whenever
+                /// the result has changed.
                 for try await results in try powerSync.watch(
                     options: WatchOptions(
                         sql: "SELECT * FROM counters",

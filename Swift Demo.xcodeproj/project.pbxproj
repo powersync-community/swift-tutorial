@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		BE394F332E68F75100A5C47B /* PowerSyncDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BE394F322E68F75100A5C47B /* PowerSyncDynamic */; };
 		BE394F342E68F75600A5C47B /* PowerSyncDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = BE394F322E68F75100A5C47B /* PowerSyncDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		BE394F492E6A03DD00A5C47B /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = BE394F482E6A03DD00A5C47B /* Auth */; };
+		BE394F4B2E6A03E200A5C47B /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = BE394F4A2E6A03E200A5C47B /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +73,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE394F492E6A03DD00A5C47B /* Auth in Frameworks */,
 				BE394F332E68F75100A5C47B /* PowerSyncDynamic in Frameworks */,
+				BE394F4B2E6A03E200A5C47B /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +102,7 @@
 				BE36D7732E68D9EB00B7D3A9 /* Swift Demo */,
 				BE36D7822E68D9EC00B7D3A9 /* Swift DemoTests */,
 				BE36D78C2E68D9EC00B7D3A9 /* Swift DemoUITests */,
+				BE394F442E69F97300A5C47B /* Frameworks */,
 				BE36D7722E68D9EB00B7D3A9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,6 +115,13 @@
 				BE36D7892E68D9EC00B7D3A9 /* Swift DemoUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BE394F442E69F97300A5C47B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +146,8 @@
 			name = "Swift Demo";
 			packageProductDependencies = (
 				BE394F322E68F75100A5C47B /* PowerSyncDynamic */,
+				BE394F482E6A03DD00A5C47B /* Auth */,
+				BE394F4A2E6A03E200A5C47B /* Supabase */,
 			);
 			productName = "Swift Demo";
 			productReference = BE36D7712E68D9EB00B7D3A9 /* Swift Demo.app */;
@@ -219,6 +233,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				BE394F312E68F75100A5C47B /* XCRemoteSwiftPackageReference "powersync-swift" */,
+				BE394F472E6A03DD00A5C47B /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BE36D7722E68D9EB00B7D3A9 /* Products */;
@@ -628,6 +643,14 @@
 				minimumVersion = 1.5.0;
 			};
 		};
+		BE394F472E6A03DD00A5C47B /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.20.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -635,6 +658,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BE394F312E68F75100A5C47B /* XCRemoteSwiftPackageReference "powersync-swift" */;
 			productName = PowerSyncDynamic;
+		};
+		BE394F482E6A03DD00A5C47B /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE394F472E6A03DD00A5C47B /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		BE394F4A2E6A03E200A5C47B /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE394F472E6A03DD00A5C47B /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

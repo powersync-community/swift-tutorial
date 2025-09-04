@@ -29,3 +29,22 @@ Diff:
 ```bash
 git diff step_1 step_2
 ```
+
+# Step 3: Syncing Downloads
+
+Connecting to a PowerSync service will allow syncing updates from the backend. On a high level, this generally requires:
+
+- A PowerSync service instance. We'll share one created earlier.
+- Authentication to the PowerSync service. We'll use Supabase anonymous auth for this. We'll share details for a prepared Supabase project.
+
+Downloads are implemented by:
+
+- Adding the [Supabase Swift SDK](https://github.com/supabase/supabase-swift) to the project.
+- Implementing a [PowerSyncBackendConnectorProtocol](https://powersync-ja.github.io/powersync-swift/documentation/powersync/powersyncdatabaseprotocol) which uses Supabase Anonymous signing for authentication.
+- Connecting to a PowerSync service
+
+Diff:
+
+```bash
+git diff step_2 step_3
+```
