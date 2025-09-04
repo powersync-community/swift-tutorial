@@ -8,17 +8,56 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var counters: [CounterRecord] = []
+    
+    let userId = UUID().uuidString
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            List {
+                ForEach(counters) { counter in
+                    CounterView(
+                        counter: counter,
+                        onIncrement: {
+                            if let idx = counters.firstIndex(
+                                where: { $0.id == counter.id }
+                            ) {
+                                counters[idx].count += 1
+                            }
+                        },
+                        onDelete: {
+                            counters.removeAll(
+                                where: {
+                                    $0.id == counter.id
+                                })
+                        }
+                    )
+                }
+            }
+            Button {
+                counters.append(
+                    CounterRecord(
+                        id: UUID().uuidString,
+                        count: 0,
+                        ownerId: userId,
+                        createdAt: Date()
+                    )
+                )
+            } label: { Text("Add Counter") }
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(
+        counters: [
+            CounterRecord(
+                id: UUID().uuidString,
+                count: 0,
+                ownerId: UUID().uuidString,
+                createdAt: Date()
+            )
+        ]
+    )
 }
