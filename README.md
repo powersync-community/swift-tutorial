@@ -24,7 +24,7 @@ The `PowerSyncDynamic` Product works well with XCode previews, add this to the m
 
 The `Counter` records are now persisted in a local SQLite database. The latest state is automatically tracked with a PowerSync watched query. Mutations are performed with SQLite queries.
 
-Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/initial...step_2)
+Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/step_1...step_2)
 
 ```bash
 git diff step_1 step_2
