@@ -8,7 +8,7 @@ struct CounterView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Count: \(counter.count)")
+                Text("Count: \(counter.count)").font(.title)
                 Spacer()
                 Button {
                     onIncrement()
