@@ -6,7 +6,7 @@ This is a simple multi platform Swift UI Application.
 
 The initial implementation allows creating and deleting `Counter` records which are stored in memory.
 
-Diff:
+Diff: [Github](https://github.com/powersync-community/swift-tutorial/compare/initial...step_1)
 
 ```bash
 git diff initial step_1
