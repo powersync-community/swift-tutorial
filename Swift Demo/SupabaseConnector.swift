@@ -86,6 +86,8 @@ final class SupabaseConnector: PowerSyncBackendConnectorProtocol {
 private enum PostgresFatalCodes {
     /// Postgres Response codes that we cannot recover from by retrying.
     static let fatalResponseCodes: [String] = [
+        // Anonymous limit reached
+        "0001",
         // Class 22 — Data Exception
         // Examples include data type mismatch.
         "22...",
