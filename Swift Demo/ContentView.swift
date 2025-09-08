@@ -108,7 +108,7 @@ struct ContentView: View {
                 /// the result has changed.
                 for try await results in try powerSync.watch(
                     options: WatchOptions(
-                        sql: "SELECT * FROM counters",
+                        sql: "SELECT * FROM counters ORDER BY created_at",
                         parameters: []
                     ) { cursor in
                         try CounterRecord(
