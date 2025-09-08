@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var counters: [CounterRecord] = []
-    @State var statusImageName: String?
+    @State var statusImageName: String = "wifi.slash"
 
     let powerSync = PowerSyncDatabase(
         schema: powerSyncSchema,
@@ -111,9 +111,7 @@ struct ContentView: View {
                 } label: {
                     Text("Sign Out")
                 }
-                if let systemName = statusImageName {
-                    Image(systemName: systemName)
-                }
+                Image(systemName: statusImageName)
             }
         }
         .padding()
