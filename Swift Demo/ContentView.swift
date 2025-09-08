@@ -12,6 +12,7 @@ struct ContentView: View {
     @State var counters: [CounterRecord] = []
 
     let userId = UUID().uuidString
+    @State var statusImageName: String = "wifi.slash"
 
     let powerSync = PowerSyncDatabase(
         schema: powerSyncSchema,
@@ -97,6 +98,7 @@ struct ContentView: View {
                         }
                     }
                 } label: { Text("Disconnect And Clear") }
+                Image(systemName: statusImageName)
             }
         }
         .padding()
@@ -123,6 +125,18 @@ struct ContentView: View {
                 }
             } catch {
                 print("Could not watch counters: \(error)")
+            }
+        }
+        .task {
+            /// This updates the status icon from the PowerSync status
+            for await status in powerSync.currentStatus.asFlow() {
+                if status.connected {
+                    statusImageName = "wifi"
+                } else if status.connecting {
+                    statusImageName = "wifi.exclamationmark"
+                } else {
+                    statusImageName = "wifi.slash"
+                }
             }
         }
     }
