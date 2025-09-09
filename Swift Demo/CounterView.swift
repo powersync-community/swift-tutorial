@@ -24,7 +24,7 @@ struct CounterView: View {
             HStack {
                 Text("Created at: \(counter.createdAt.ISO8601Format())")
                 Spacer()
-                Text("Owner id: \(counter.ownerId)")
+                Text("Owner id: \(counter.ownerId ?? "-")")
             }
         }
     }
