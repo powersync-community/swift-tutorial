@@ -115,17 +115,6 @@ struct ContentView: View {
                 } label: {
                     Text("Sign Out")
                 }
-                Button {
-                    Task {
-                        do {
-                            try await supabase.signOut()
-                        } catch {
-                            print("Could not sign out: \(error)")
-                        }
-                    }
-                } label: {
-                    Text("Sign Out")
-                }
                 Image(systemName: statusImageName)
             }
         }
