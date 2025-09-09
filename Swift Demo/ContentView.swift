@@ -80,26 +80,30 @@ struct ContentView: View {
                     }
                 } label: { Text("Add Counter") }
                 Spacer()
-                Button {
-                    Task {
-                        do {
-                            try await powerSync.connect(
-                                connector: supabase
-                            )
-                        } catch {
-                            print("Could not disconnect and clear")
+                if (!powerSync.currentStatus.connecting && !powerSync.currentStatus.connected) {
+                    Button {
+                        Task {
+                            do {
+                                try await powerSync.connect(
+                                    connector: supabase
+                                )
+                            } catch {
+                                print("Could not disconnect and clear")
+                            }
                         }
-                    }
-                } label: { Text("Connect") }
-                Button {
-                    Task {
-                        do {
-                            try await powerSync.disconnectAndClear()
-                        } catch {
-                            print("Could not disconnect and clear")
+                    } label: { Text("Connect") }
+                }
+                if (powerSync.currentStatus.connecting || powerSync.currentStatus.connected) {
+                    Button {
+                        Task {
+                            do {
+                                try await powerSync.disconnectAndClear()
+                            } catch {
+                                print("Could not disconnect and clear")
+                            }
                         }
-                    }
-                } label: { Text("Disconnect And Clear") }
+                    } label: { Text("Disconnect And Clear") }
+                } 
                 Button {
                     Task {
                         do {
